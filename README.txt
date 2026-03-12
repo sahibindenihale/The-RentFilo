@@ -1,0 +1,1 @@
+index.html dosyasini acin. Iletisim ve fiyat guncellemek icin sayfanin altindaki script icindeki CONFIG alanini duzenleyin.

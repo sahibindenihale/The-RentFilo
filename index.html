@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>THE Rent Filo — Araç Kiralama</title>
+  <meta name="description" content="THE Rent Filo ekonomik ve lüks araç kiralama seçenekleri. Fiyatları ve iletişim bilgilerini tek bir config alanından kolayca güncelleyin.">
+  <style>
+    :root {
+      --bg:#0b0b0c;
+      --surface:#141416;
+      --surface-2:#1b1b1f;
+      --text:#f5f5f5;
+      --muted:#b8b8be;
+      --gold:#d8b25b;
+      --gold-2:#f0d48f;
+      --border:rgba(255,255,255,.08);
+      --shadow:0 18px 60px rgba(0,0,0,.28);
+      --wa:#25D366;
+      --call:#ef4444;
+      --radius:18px;
+    }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body {
+      margin:0;
+      font-family:Inter, "Segoe UI", Arial, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at top, rgba(216,178,91,.16), transparent 28%),
+        linear-gradient(180deg, #111214 0%, #090909 100%);
+      line-height:1.5;
+    }
+    a { color:inherit; text-decoration:none; }
+    .wrap { max-width:1280px; margin:0 auto; padding:24px; }
+    .topbar {
+      position:sticky; top:0; z-index:50; backdrop-filter: blur(10px);
+      background:rgba(10,10,10,.75); border-bottom:1px solid var(--border);
+    }
+    .topbar-inner { max-width:1280px; margin:0 auto; padding:14px 24px; display:flex; gap:18px; align-items:center; }
+    .logo { width:56px; height:56px; border-radius:16px; background:linear-gradient(135deg,var(--gold),#9d7421); display:flex; align-items:center; justify-content:center; color:#111; font-weight:900; box-shadow:var(--shadow); }
+    .brand-title { font-size:22px; font-weight:900; letter-spacing:.3px; }
+    .brand-sub { color:var(--muted); font-size:13px; margin-top:2px; }
+    nav { margin-left:auto; display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
+    nav a { padding:10px 14px; border-radius:999px; color:var(--muted); font-weight:700; }
+    nav a:hover, nav a.active { background:var(--surface-2); color:var(--text); }
+    nav a.cta { background:linear-gradient(135deg,var(--gold-2),var(--gold)); color:#111; }
+    .hero { padding:36px 0 18px; }
+    .hero-card { background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)); border:1px solid var(--border); border-radius:28px; padding:28px; box-shadow:var(--shadow); }
+    .eyebrow { color:var(--gold-2); font-weight:800; text-transform:uppercase; letter-spacing:1.2px; font-size:12px; }
+    h1 { font-size:clamp(30px, 5vw, 56px); line-height:1.05; margin:10px 0 12px; }
+    .hero p { color:var(--muted); max-width:760px; font-size:17px; margin:0; }
+    .hero-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:24px; }
+    .stat { background:var(--surface); border:1px solid var(--border); border-radius:18px; padding:16px; }
+    .stat strong { display:block; font-size:22px; color:var(--gold-2); }
+    .stat span { color:var(--muted); font-size:13px; }
+    .section-head { display:flex; gap:12px; justify-content:space-between; align-items:end; margin:28px 0 14px; flex-wrap:wrap; }
+    .section-head h2 { margin:0; font-size:28px; }
+    .section-head p { margin:0; color:var(--muted); }
+    .panel { background:var(--surface); border:1px solid var(--border); border-radius:22px; padding:16px; box-shadow:var(--shadow); }
+    .controls { display:flex; flex-wrap:wrap; gap:12px; align-items:center; }
+    .search { flex:1; min-width:230px; }
+    input { width:100%; padding:14px 16px; border-radius:14px; border:1px solid var(--border); background:#0e0e11; color:var(--text); font-size:15px; }
+    .info-badges { display:flex; flex-wrap:wrap; gap:10px; }
+    .badge { background:#0e0e11; border:1px solid var(--border); color:var(--muted); padding:12px 14px; border-radius:14px; font-weight:700; }
+    .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:18px; }
+    .card { background:linear-gradient(180deg, #17171a 0%, #101012 100%); border:1px solid var(--border); border-radius:22px; overflow:hidden; box-shadow:var(--shadow); display:flex; flex-direction:column; }
+    .img { height:250px; background:#0d0d0f; }
+    .img img { width:100%; height:100%; object-fit:cover; display:block; }
+    .body { padding:18px; display:flex; flex-direction:column; gap:14px; height:100%; }
+    .car-name { font-size:22px; font-weight:900; }
+    .car-class { color:var(--gold-2); font-weight:800; font-size:13px; text-transform:uppercase; letter-spacing:.9px; }
+    .price-row { display:flex; justify-content:space-between; align-items:end; gap:12px; }
+    .price { font-size:30px; font-weight:900; color:var(--gold-2); line-height:1; }
+    .price small { display:block; font-size:13px; color:var(--muted); margin-top:6px; font-weight:700; }
+    .deposit { text-align:right; color:var(--muted); font-weight:700; }
+    .deposit strong { display:block; color:var(--text); font-size:18px; margin-top:2px; }
+    .meta { display:flex; gap:8px; flex-wrap:wrap; }
+    .meta span { padding:8px 10px; border-radius:999px; background:#0e0e11; color:var(--muted); border:1px solid var(--border); font-size:13px; font-weight:700; }
+    .card-actions { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:auto; }
+    .btn { display:inline-flex; align-items:center; justify-content:center; padding:13px 16px; border-radius:14px; font-weight:900; border:none; cursor:pointer; }
+    .btn-wa { background:var(--wa); color:#09250f; }
+    .btn-call { background:var(--call); color:#fff; }
+    .btn-gold { background:linear-gradient(135deg,var(--gold-2),var(--gold)); color:#111; }
+    .services { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+    .service { background:var(--surface); border:1px solid var(--border); border-radius:18px; padding:18px; }
+    .service strong { display:block; margin-bottom:6px; font-size:18px; }
+    .service p { margin:0; color:var(--muted); }
+    footer { margin:28px 0 10px; }
+    .footer-card { display:grid; grid-template-columns:1.2fr .8fr; gap:18px; background:var(--surface); border:1px solid var(--border); border-radius:24px; padding:22px; box-shadow:var(--shadow); }
+    .contact-list { display:grid; gap:8px; color:var(--muted); }
+    .contact-list strong { color:var(--text); }
+    .legal { color:var(--muted); font-size:13px; margin-top:14px; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+    .fixed-call,.fixed-wa { position:fixed; bottom:18px; padding:14px 18px; border-radius:999px; font-weight:900; box-shadow:var(--shadow); z-index:90; }
+    .fixed-call { left:18px; background:var(--call); color:#fff; }
+    .fixed-wa { right:18px; background:var(--wa); color:#08250e; }
+    @media (max-width: 1100px) { .grid,.services,.hero-stats,.footer-card { grid-template-columns:repeat(2,1fr); } }
+    @media (max-width: 760px) {
+      .topbar-inner { padding:14px 16px; }
+      .wrap { padding:16px; }
+      .grid,.services,.hero-stats,.footer-card { grid-template-columns:1fr; }
+      .card-actions { grid-template-columns:1fr; }
+      .fixed-call,.fixed-wa { padding:12px 14px; bottom:12px; }
+      .fixed-call { left:12px; } .fixed-wa { right:12px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="logo">TR</div>
+      <div>
+        <div class="brand-title" id="brandName">THE Rent Filo</div>
+        <div class="brand-sub" id="brandSlogan">Ekonomikten lükse doğru sıralı araç filosu</div>
+      </div>
+      <nav>
+        <a href="#anasayfa" class="active">Anasayfa</a>
+        <a href="#araclar">Araçlar</a>
+        <a href="#hizmetler">Hizmetler</a>
+        <a href="#iletisim" class="cta">İletişim</a>
+      </nav>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <section class="hero" id="anasayfa">
+      <div class="hero-card">
+        <div class="eyebrow">Premium araç kiralama</div>
+        <h1 id="heroTitle">THE Rent Filo ile doğru aracı hızlıca seçin.</h1>
+        <p id="heroText">Türkiye'nin 81 İlinde Mobil Teslim Noktası.</p>
+        <div class="hero-stats">
+          <div class="stat"><strong>Kurumsal Kiralama</strong><span>Şirketlere özel kısa ve uzun dönem çözümler</span></div>
+          <div class="stat"><strong>Geniş Araç Filosu</strong><span>Farklı segmentlerde düzenli güncellenen seçenekler</span></div>
+          <div class="stat"><strong>Hızlı Rezervasyon</strong><span>Talebinize uygun araç için pratik süreç yönetimi</span></div>
+          <div class="stat"><strong>7/24 Destek</strong><span>Rezervasyon ve teslim süreçlerinde kesintisiz iletişim</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="araclar">
+      <div class="section-head">
+        <div>
+          <h2>Araç Filosu</h2>
+          
+        </div>
+      </div>
+      <div class="panel">
+        <div class="controls">
+          <div class="search"><input id="search" type="text" placeholder="Araç ara... Örn: Clio, BMW, Audi"></div>
+          <div class="info-badges">
+            <div class="badge">Toplam liste: <span id="count">0</span></div>
+            <div class="badge">Güncel araç seçenekleri</div>
+          </div>
+        </div>
+        <div class="grid" id="grid"></div>
+      </div>
+    </section>
+
+    <section id="hizmetler">
+      <div class="section-head">
+        <div>
+          <h2>Hizmetler</h2>
+          <p>Bireysel ve kurumsal kiralama ihtiyaçları için pratik çözümler.</p>
+        </div>
+      </div>
+      <div class="services">
+        <div class="service"><strong>Günlük ve Haftalık Kiralama</strong><p>Kısa süreli ihtiyaçlar için hızlı teslim ve kolay rezervasyon.</p></div>
+        <div class="service"><strong>Kurumsal Filo Çözümleri</strong><p>Şirketlere özel uzun dönem ve çoklu araç planlaması.</p></div>
+        <div class="service"><strong>VIP ve Üst Segment Seçenekler</strong><p>Özel günler, transfer ve premium kullanım için lüks araçlar.</p></div>
+      </div>
+    </section>
+
+    <footer id="iletisim">
+      <div class="footer-card">
+        <div>
+          <div class="eyebrow">İletişim</div>
+          <h2 style="margin:8px 0 14px" id="footerBrand">THE Rent Filo</h2>
+          <div class="contact-list">
+            <div>Telefon: <strong id="phoneText"></strong></div>
+            <div>WhatsApp: <strong id="whatsappText"></strong></div>
+            <div>E-posta: <strong id="emailText"></strong></div>
+            <div>Adres: <strong id="addressText"></strong></div>
+          </div>
+        </div>
+        <div class="panel" style="padding:18px; background:#0e0e11;">
+          <div class="eyebrow">Hızlı işlem</div>
+          <h3 style="margin:10px 0 8px">Tek yerden güncelleme</h3>
+          <p style="margin:0; color:var(--muted)">Aşağıdaki <strong>CONFIG</strong> alanından telefon, WhatsApp, e-posta, site adı ve araç fiyatlarını tek tek değiştirebilirsiniz.</p>
+          <div style="margin-top:16px; display:grid; gap:10px;">
+            <a id="footerWaBtn" class="btn btn-wa" target="_blank">WhatsApp'tan Yaz</a>
+            <a id="footerCallBtn" class="btn btn-gold">Hemen Ara</a>
+          </div>
+        </div>
+      </div>
+      <div class="legal">
+        <div id="copyright">© THE Rent Filo — Tüm hakları saklıdır.</div>
+        <div>KVKK • Sözleşme ve Koşullar • Çerez Politikası</div>
+      </div>
+    </footer>
+  </div>
+
+  <a id="fixedCall" class="fixed-call">HEMEN ARA</a>
+  <a id="fixedWa" class="fixed-wa" target="_blank">WHATSAPP</a>
+
+  <script>
+    const CONFIG = {
+      brandName: "THE Rent Filo",
+      slogan: "Ekonomikten lükse doğru sıralı araç filosu",
+      heroTitle: "THE Rent Filo ile doğru aracı hızlıca seçin.",
+      heroText: "Türkiye'nin 81 İlinde Mobil Teslim Noktası İle Ücretsiz Vale Hizmeti.",
+      phone: "+90 541 174 82 98",
+      phoneRaw: "905411748298",
+      whatsapp: "905411748298",
+      email: "info@therentfilo.com",
+      address: "Türkiye",
+      currency: "₺",
+      dailyLabel: "/ gün",
+      deposit: 4000,
+      cars: [
+        {
+                "name": "Renault Clio",
+                "img": "araclar/renault-clio.png",
+                "price": 1100
+        },
+        {
+                "name": "Renault Symbol",
+                "img": "araclar/renault-sembol.png",
+                "price": 1200
+        },
+        {
+                "name": "Kia Rio",
+                "img": "araclar/kia-rio.png",
+                "price": 1200
+        },
+        {
+                "name": "Opel Corsa",
+                "img": "araclar/opel-corsa.png",
+                "price": 1300
+        },
+        {
+                "name": "Ford Fiesta",
+                "img": "araclar/ford-fiesta.png",
+                "price": 1300
+        },
+        {
+                "name": "Citroen C3",
+                "img": "araclar/citroen-c3.png",
+                "price": 1400
+        },
+        {
+                "name": "Volkswagen Polo",
+                "img": "araclar/polo.png",
+                "price": 1400
+        },
+        {
+                "name": "Fiat Egea",
+                "img": "araclar/fiat egea.png",
+                "price": 1500
+        },
+        {
+                "name": "Fiat Egea Cross",
+                "img": "araclar/fiat-egea-cross.png",
+                "price": 1600
+        },
+        {
+                "name": "Peugeot 308",
+                "img": "araclar/peugot-308.png",
+                "price": 1600
+        },
+        {
+                "name": "Seat Leon",
+                "img": "araclar/leon.png",
+                "price": 1700
+        },
+        {
+                "name": "Volkswagen Golf",
+                "img": "araclar/golf.png",
+                "price": 1800
+        },
+        {
+                "name": "Ford Focus",
+                "img": "araclar/ford -focus.png",
+                "price": 1800
+        },
+        {
+                "name": "Honda Civic",
+                "img": "araclar/honda civic.png",
+                "price": 1900
+        },
+        {
+                "name": "Skoda Superb",
+                "img": "araclar/skoda.png",
+                "price": 2000
+        },
+        {
+                "name": "Volkswagen Passat",
+                "img": "araclar/passat.png",
+                "price": 2100
+        },
+        {
+                "name": "Vauxhall Insignia",
+                "img": "araclar/vauxhall-insignia.png",
+                "price": 2200
+        },
+        {
+                "name": "Cupra Leon",
+                "img": "araclar/cupra.png",
+                "price": 2300
+        },
+        {
+                "name": "Citroen Berlingo",
+                "img": "araclar/citroen-berlingo.png",
+                "price": 2300
+        },
+        {
+                "name": "Ford Tourneo Courier",
+                "img": "araclar/ford-tourneo-courier.png",
+                "price": 2400
+        },
+        {
+                "name": "Fiat Doblo",
+                "img": "araclar/fiat-doblo.png",
+                "price": 2400
+        },
+        {
+                "name": "Ford Tourneo Custom",
+                "img": "araclar/ford-tourneo-custom.png",
+                "price": 2500
+        },
+        {
+                "name": "BMW X1",
+                "img": "araclar/bmw-x1.png",
+                "price": 2600
+        },
+        {
+                "name": "Audi A4",
+                "img": "araclar/Audi-A4.png",
+                "price": 2700
+        },
+        {
+                "name": "BMW 320i",
+                "img": "araclar/bmw 320i.png",
+                "price": 2700
+        },
+        {
+                "name": "Mercedes C200",
+                "img": "araclar/mercedes-c200.png",
+                "price": 2800
+        },
+        {
+                "name": "Audi A6",
+                "img": "araclar/audi-a6.png",
+                "price": 2900
+        },
+        {
+                "name": "BMW 520i",
+                "img": "araclar/bmw-520i.png",
+                "price": 2900
+        },
+        {
+                "name": "BMW 525 xDrive",
+                "img": "araclar/bmw 525xdrive.png",
+                "price": 3000
+        }
+]
+    };
+
+    const formatMoney = n => n.toLocaleString('tr-TR') + ' ' + CONFIG.currency;
+    const classify = price => price <= 1600 ? 'Ekonomik' : price <= 2400 ? 'Orta Segment' : 'Lüks';
+
+    const el = id => document.getElementById(id);
+    const grid = el('grid');
+    const search = el('search');
+
+    function setBranding() {
+      document.title = `${CONFIG.brandName} — Araç Kiralama`;
+      el('brandName').textContent = CONFIG.brandName;
+      el('brandSlogan').textContent = CONFIG.slogan;
+      el('footerBrand').textContent = CONFIG.brandName;
+      el('heroTitle').textContent = CONFIG.heroTitle;
+      el('heroText').textContent = CONFIG.heroText;
+      el('phoneText').textContent = CONFIG.phone;
+      el('whatsappText').textContent = CONFIG.phone;
+      el('emailText').textContent = CONFIG.email;
+      el('addressText').textContent = CONFIG.address;
+      el('copyright').textContent = `© ${CONFIG.brandName} — Tüm hakları saklıdır.`;
+
+      const waLink = `https://wa.me/${CONFIG.whatsapp}`;
+      const telLink = `tel:+${CONFIG.phoneRaw}`;
+      el('footerWaBtn').href = waLink;
+      el('footerCallBtn').href = telLink;
+      el('fixedWa').href = waLink;
+      el('fixedCall').href = telLink;
+    }
+
+    function createCard(car) {
+      const waText = encodeURIComponent(`Merhaba, ${car.name} için bilgi almak istiyorum.`);
+      const div = document.createElement('article');
+      div.className = 'card';
+      div.innerHTML = `
+        <div class="img">
+          <img src="${car.img}" alt="${car.name}" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/900x600/111111/d8b25b?text=THE+Rent+Filo'">
+        </div>
+        <div class="body">
+          <div>
+            <div class="car-class">${classify(car.price)}</div>
+            <div class="car-name">${car.name}</div>
+          </div>
+          <div class="price-row">
+            <div class="price">${formatMoney(car.price)}<small>${CONFIG.dailyLabel}</small></div>
+          </div>
+          <div class="meta">
+            <span>Otomatik</span>
+            <span>Dizel / Benzin</span>
+            <span>Sıralı liste</span>
+          </div>
+          <div class="card-actions">
+            <a class="btn btn-wa" href="https://wa.me/${CONFIG.whatsapp}?text=${waText}" target="_blank">WhatsApp</a>
+            <a class="btn btn-call" href="tel:+${CONFIG.phoneRaw}">Hemen Ara</a>
+          </div>
+        </div>`;
+      return div;
+    }
+
+    function render(list) {
+      grid.innerHTML = '';
+      list.forEach(car => grid.appendChild(createCard(car)));
+      el('count').textContent = list.length;
+    }
+
+    function applyFilter() {
+      const q = search.value.trim().toLowerCase();
+      const filtered = CONFIG.cars.filter(car => car.name.toLowerCase().includes(q));
+      render(filtered);
+    }
+
+    // Güvenli sıralama: önce fiyata göre, sonra isme göre
+    CONFIG.cars.sort((a,b) => a.price - b.price || a.name.localeCompare(b.name, 'tr'));
+
+    setBranding();
+    render(CONFIG.cars);
+    search.addEventListener('input', applyFilter);
+  </script>
+</body>
+</html>
